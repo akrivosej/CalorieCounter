@@ -183,7 +183,7 @@ struct SubscriptionView: View {
                         }
                         .sheet(isPresented: $isPresentWebViePrivacy) {
                             NavigationStack {
-                                WebView(url: URL(string: "https://sites.google.com/view/eatifyai/privacy-policy")!)
+                                WebView(url: URL(string: "https://sites.google.com/view/eatpro/privacy-policy")!)
                                     .ignoresSafeArea()
                                     .navigationTitle("Privacy Policy")
                                     .navigationBarTitleDisplayMode(.inline)
