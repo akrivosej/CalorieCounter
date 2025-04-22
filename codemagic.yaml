@@ -11,48 +11,40 @@ workflows:
       vars:
         BUNDLE_ID: "com.kenansk"
         XCODE_PROJECT: "AINutritionist.xcodeproj"
-        XCODE_SCHEME: "AINutritionist" 
+        XCODE_SCHEME: "AINutritionist"
         APP_STORE_APPLE_ID: 6744904660
-        TEAM_ID: "2W59P9MS87"  # Ваш Team ID
+        TEAM_ID: "2W59P9MS87"
       xcode: 16.0
     scripts:
       - name: Set up provisioning profiles settings on Xcode project
         script: xcode-project use-profiles
-
-    - name: Increment build number
-      script: |
-        cd "$CM_BUILD_DIR"
-        PLIST_PATH="$CM_BUILD_DIR/AINutritionist/Info.plist"
-        if [ ! -f "$PLIST_PATH" ]; then
-          # Если путь не верный, попробуем найти Info.plist
-          PLIST_PATH=$(find "$CM_BUILD_DIR" -name "Info.plist" -type f | head -n 1)
-          echo "Found Info.plist at: $PLIST_PATH"
-        fi
-        
-        # Получаем текущий номер версии и увеличиваем на 1
-        CURRENT_BUILD_NUMBER=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "$PLIST_PATH")
-        NEW_BUILD_NUMBER=$((CURRENT_BUILD_NUMBER + 1))
-        echo "Increasing build number from $CURRENT_BUILD_NUMBER to $NEW_BUILD_NUMBER"
-        
-        # Устанавливаем новый номер версии
-        /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $NEW_BUILD_NUMBER" "$PLIST_PATH"
-        
-        # Проверяем, что изменения применились
-        UPDATED_BUILD_NUMBER=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "$PLIST_PATH")
-        echo "Updated build number: $UPDATED_BUILD_NUMBER"
-
+      - name: Increment build number
+        script: |
+          cd "$CM_BUILD_DIR"
+          PLIST_PATH="$CM_BUILD_DIR/AINutritionist/Info.plist"
+          if [ ! -f "$PLIST_PATH" ]; then
+            PLIST_PATH=$(find "$CM_BUILD_DIR" -name "Info.plist" -type f | head -n 1)
+            echo "Found Info.plist at: $PLIST_PATH"
+          fi
+          
+          CURRENT_BUILD_NUMBER=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "$PLIST_PATH")
+          NEW_BUILD_NUMBER=$((CURRENT_BUILD_NUMBER + 1))
+          echo "Increasing build number from $CURRENT_BUILD_NUMBER to $NEW_BUILD_NUMBER"
+          
+          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $NEW_BUILD_NUMBER" "$PLIST_PATH"
+          
+          UPDATED_BUILD_NUMBER=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "$PLIST_PATH")
+          echo "Updated build number: $UPDATED_BUILD_NUMBER"
       - name: Build ipa for distribution
         script: |
           xcode-project build-ipa \
             --project "$CM_BUILD_DIR/$XCODE_PROJECT" \
             --scheme "$XCODE_SCHEME"
-
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
       - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
       - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
-
     publishing:
       email:
         recipients:
