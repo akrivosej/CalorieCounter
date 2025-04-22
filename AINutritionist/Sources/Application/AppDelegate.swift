@@ -15,9 +15,15 @@ import FirebaseAuth
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, AppsFlyerLibDelegate {
-
+    var window: UIWindow?
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
                 
+        window = UIWindow(frame: UIScreen.main.bounds)
+        let viewController = ViewController()
+        window?.rootViewController = viewController
+        window?.makeKeyAndVisible()
+        
         FirebaseApp.configure()
         let config = TelemetryDeck.Config(appID: "EDCE133E-5AAD-48FB-958C-E252D4088520")
         TelemetryDeck.initialize(config: config)
@@ -69,6 +75,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppsFlyerLibDelegate {
             }
         
         AppsFlyerLib.shared().start()
+        
         return true
     }
     
@@ -81,36 +88,55 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AppsFlyerLibDelegate {
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
-        AppsFlyerLib.shared().waitForATTUserAuthorization(timeoutInterval: 60)
-        ATTrackingManager.requestTrackingAuthorization { (status) in
-            switch status {
-            case .authorized:
-                print("authorized")
-            case .denied:
-                print("denied")
-            case .notDetermined:
-                print("Not Determined")
-            case .restricted:
-                print("Restricted")
-            @unknown default:
-                print("Unknown")
+        // Проверяем статус авторизации перед запросом
+        if #available(iOS 14, *) {
+            if ATTrackingManager.trackingAuthorizationStatus == .notDetermined {
+                // Удаляем waitForATTUserAuthorization, так как это может вызывать задержку
+                ATTrackingManager.requestTrackingAuthorization { (status) in
+                    DispatchQueue.main.async {
+                        AppsFlyerLib.shared().start()
+                    }
+                }
+            } else {
+                AppsFlyerLib.shared().start()
             }
+        } else {
+            // Для iOS ниже 14
+            AppsFlyerLib.shared().start()
         }
-        AppsFlyerLib.shared().start()
     }
     
-
-    // MARK: UISceneSession Lifecycle
-
-    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        // Called when a new scene session is being created.
-        // Use this method to select a configuration to create the new scene with.
-        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
-    }
-
-    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-        // Called when the user discards a scene session.
-        // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
-        // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
-    }
+//    func applicationDidBecomeActive(_ application: UIApplication) {
+//        AppsFlyerLib.shared().waitForATTUserAuthorization(timeoutInterval: 60)
+//        ATTrackingManager.requestTrackingAuthorization { (status) in
+//            switch status {
+//            case .authorized:
+//                print("authorized")
+//            case .denied:
+//                print("denied")
+//            case .notDetermined:
+//                print("Not Determined")
+//            case .restricted:
+//                print("Restricted")
+//            @unknown default:
+//                print("Unknown")
+//            }
+//        }
+//        AppsFlyerLib.shared().start()
+//    }
+    
+//
+//     MARK: UISceneSession Lifecycle
+//
+//    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+//        // Called when a new scene session is being created.
+//        // Use this method to select a configuration to create the new scene with.
+//        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+//    }
+//
+//    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
+//        // Called when the user discards a scene session.
+//        // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
+//        // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
+//    }
 }

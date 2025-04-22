@@ -30,7 +30,6 @@
 		D56FAA382DA56FC300D7F3E4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D56FA9BC2DA56FC300D7F3E4 /* LaunchScreen.storyboard */; };
 		D56FAA392DA56FC300D7F3E4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D56FA9BE2DA56FC300D7F3E4 /* Main.storyboard */; };
 		D56FAA3A2DA56FC300D7F3E4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56FA9C02DA56FC300D7F3E4 /* AppDelegate.swift */; };
-		D56FAA3B2DA56FC300D7F3E4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56FA9C12DA56FC300D7F3E4 /* SceneDelegate.swift */; };
 		D56FAA3C2DA56FC300D7F3E4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56FA9C22DA56FC300D7F3E4 /* ViewController.swift */; };
 		D56FAA3D2DA56FC300D7F3E4 /* AuthMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56FA9C42DA56FC300D7F3E4 /* AuthMain.swift */; };
 		D56FAA3E2DA56FC300D7F3E4 /* DietRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56FA9C62DA56FC300D7F3E4 /* DietRequest.swift */; };
@@ -129,7 +128,6 @@
 		D56FA9BB2DA56FC300D7F3E4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D56FA9BD2DA56FC300D7F3E4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D56FA9C02DA56FC300D7F3E4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D56FA9C12DA56FC300D7F3E4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		D56FA9C22DA56FC300D7F3E4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D56FA9C42DA56FC300D7F3E4 /* AuthMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthMain.swift; sourceTree = "<group>"; };
 		D56FA9C62DA56FC300D7F3E4 /* DietRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DietRequest.swift; sourceTree = "<group>"; };
@@ -264,7 +262,6 @@
 			isa = PBXGroup;
 			children = (
 				D56FA9C02DA56FC300D7F3E4 /* AppDelegate.swift */,
-				D56FA9C12DA56FC300D7F3E4 /* SceneDelegate.swift */,
 				D56FA9C22DA56FC300D7F3E4 /* ViewController.swift */,
 			);
 			path = Application;
@@ -804,7 +801,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D56FAA3A2DA56FC300D7F3E4 /* AppDelegate.swift in Sources */,
-				D56FAA3B2DA56FC300D7F3E4 /* SceneDelegate.swift in Sources */,
 				D56FAA3C2DA56FC300D7F3E4 /* ViewController.swift in Sources */,
 				D56FAA3D2DA56FC300D7F3E4 /* AuthMain.swift in Sources */,
 				D56FAA3E2DA56FC300D7F3E4 /* DietRequest.swift in Sources */,
@@ -902,7 +898,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -942,7 +938,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
