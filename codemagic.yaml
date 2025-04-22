@@ -10,8 +10,8 @@ workflows:
         bundle_identifier: com.kenansk
       vars:
         BUNDLE_ID: "com.kenansk"
-        XCODE_PROJECT: "AINutritionist.xcodeproj" # Убедитесь, что имя проекта указано правильно
-        XCODE_SCHEME: "AINutritionist" # Убедитесь, что имя схемы указано правильно
+        XCODE_PROJECT: "AINutritionist.xcodeproj"
+        XCODE_SCHEME: "AINutritionist" 
         APP_STORE_APPLE_ID: 6744904660
         TEAM_ID: "2W59P9MS87"  # Ваш Team ID
       xcode: 16.0
@@ -19,11 +19,27 @@ workflows:
       - name: Set up provisioning profiles settings on Xcode project
         script: xcode-project use-profiles
 
-      - name: Increment build number
-        script: |
-          cd "$CM_BUILD_DIR"
-          LATEST_BUILD_NUMBER=$(app-store-connect get-latest-app-store-build-number "$APP_STORE_APPLE_ID")
-          agvtool new-version -all $(($LATEST_BUILD_NUMBER + 1))
+    - name: Increment build number
+      script: |
+        cd "$CM_BUILD_DIR"
+        PLIST_PATH="$CM_BUILD_DIR/AINutritionist/Info.plist"
+        if [ ! -f "$PLIST_PATH" ]; then
+          # Если путь не верный, попробуем найти Info.plist
+          PLIST_PATH=$(find "$CM_BUILD_DIR" -name "Info.plist" -type f | head -n 1)
+          echo "Found Info.plist at: $PLIST_PATH"
+        fi
+        
+        # Получаем текущий номер версии и увеличиваем на 1
+        CURRENT_BUILD_NUMBER=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "$PLIST_PATH")
+        NEW_BUILD_NUMBER=$((CURRENT_BUILD_NUMBER + 1))
+        echo "Increasing build number from $CURRENT_BUILD_NUMBER to $NEW_BUILD_NUMBER"
+        
+        # Устанавливаем новый номер версии
+        /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $NEW_BUILD_NUMBER" "$PLIST_PATH"
+        
+        # Проверяем, что изменения применились
+        UPDATED_BUILD_NUMBER=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "$PLIST_PATH")
+        echo "Updated build number: $UPDATED_BUILD_NUMBER"
 
       - name: Build ipa for distribution
         script: |
