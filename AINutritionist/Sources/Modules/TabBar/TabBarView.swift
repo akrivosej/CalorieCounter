@@ -37,7 +37,7 @@ struct TabBarView: View {
                     .environmentObject(authMain)
                     .tag("stat")
                 
-                AccountScreen(viewModel: authMain, path: $path)
+                AccountScreen(accViewModel: .init(), viewModel: authMain, path: $path)
                     .environmentObject(authMain)
                     .tag("profile")
             }

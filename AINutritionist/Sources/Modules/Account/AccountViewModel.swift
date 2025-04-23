@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+final class AccountViewModel: ObservableObject {
+    
+    func deleteAcc() {
+        let storage: ModelStorage = .init()
+        storage.deleteAll()
+    }
+}

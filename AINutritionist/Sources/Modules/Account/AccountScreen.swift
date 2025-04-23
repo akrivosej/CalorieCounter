@@ -10,6 +10,7 @@ import AppsFlyerLib
 import TelemetryDeck
 
 struct AccountScreen: View {
+    @ObservedObject var accViewModel: AccountViewModel
     @ObservedObject var viewModel: AuthMain
     @Binding var path: NavigationPath
     @Environment(\ .dismiss) var dismiss
@@ -20,7 +21,8 @@ struct AccountScreen: View {
     @State private var currentWeight: String = UserDefaults.standard.string(forKey: "currentWeight") ?? "0"
     let weight = UserDefaults.standard.string(forKey: "weightDataCollection") ?? "0"
     
-    init(viewModel: AuthMain, path: Binding<NavigationPath>) {
+    init(accViewModel: AccountViewModel, viewModel: AuthMain, path: Binding<NavigationPath>) {
+        self.accViewModel = accViewModel
         self.viewModel = viewModel
         self._path = path
     }
@@ -109,39 +111,39 @@ struct AccountScreen: View {
                 }
                 .background(Color.init(red: 245/255, green: 78/255, blue: 0/255))
                 .cornerRadius(24)
-//                
-//                Button {
-//                    showAlert = true
-//                } label: {
-//                    Text("Delete account")
-//                        .padding(.vertical, 16)
-//                        .frame(maxWidth: .infinity)
-//                        .foregroundStyle(.white)
-//                        .font(.system(size: 28, weight: .medium, design: .default))
-//                }
-//                .background(Color(red: 255/255, green: 71/255, blue: 61/255))
-//                .cornerRadius(24)
-//                .padding(.horizontal, 24)
-//                .padding(.bottom, 32)
-//                .alert("Are you sure?", isPresented: $showAlert) {
-//                    Button("Delete", role: .destructive) {
-//                        viewModel.deleteUserAccount { result in
-//                            switch result {
-//                            case .success():
-//                                print("Account deleted successfully.")
-//                                viewModel.userSession = nil
-//                                viewModel.currentuser = nil
-//                                path = NavigationPath()
-//                            case .failure(let error):
-//                                print("ERROR DELETING: \(error.localizedDescription)")
-//                            }
-//                        }
-//                    }
-//                    Button("Cancel", role: .cancel) {}
-//                } message: {
-//                    Text("Are you sure you want to delete the account?")
-//                }
-//                
+                
+                Button {
+                    showAlert = true
+                } label: {
+                    Text("Delete account")
+                        .padding(.vertical, 16)
+                        .frame(maxWidth: .infinity)
+                        .foregroundStyle(Color.init(red: 235/255, green: 243/255, blue: 241/255))
+                        .font(.custom("D-DIN-PRO-Bold", size: 26))
+                }
+                .background(Color.init(red: 245/255, green: 78/255, blue: 0/255))
+                .cornerRadius(24)
+                .alert("Are you sure?", isPresented: $showAlert) {
+                    Button("Delete", role: .destructive) {
+                        viewModel.deleteUserAccount { result in
+                            switch result {
+                            case .success():
+                                print("Account deleted successfully.")
+                                viewModel.userSession = nil
+                                viewModel.currentuser = nil
+                                UserDefaults.standard.set("0", forKey: "currentWeight")
+                                accViewModel.deleteAcc()
+                                path.removeLast(path.count - 1)
+                            case .failure(let error):
+                                print("ERROR DELETING: \(error.localizedDescription)")
+                            }
+                        }
+                    }
+                    Button("Cancel", role: .cancel) {}
+                } message: {
+                    Text("Are you sure you want to delete the account?")
+                }
+                
                 Spacer()
             }
             .padding(.horizontal, 18)
@@ -191,7 +193,7 @@ struct AccountScreen: View {
 
 
 #Preview {
-    AccountScreen(viewModel: .init(), path: .constant(.init()))
+    AccountScreen(accViewModel: .init(), viewModel: .init(), path: .constant(.init()))
 }
 
 struct AccountItem: View {

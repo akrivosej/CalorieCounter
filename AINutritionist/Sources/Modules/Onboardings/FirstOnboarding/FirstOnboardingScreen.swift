@@ -74,7 +74,7 @@ struct FirstOnboardingScreen: View {
                     StatisticsScreen()
                         .navigationBarBackButtonHidden(true)
                 case .account:
-                    AccountScreen(viewModel: authMain, path: $path)
+                    AccountScreen(accViewModel: .init(), viewModel: authMain, path: $path)
                         .navigationBarBackButtonHidden(true)
                 case .tabBarView:
                     TabBarView(authMain: authMain, path: $path)

@@ -139,6 +139,9 @@ class AuthMain: ObservableObject {
         
         // Спочатку виходимо з RevenueCat
         logoutFromRevenueCat()
+        // Очищаємо локальний статус підписки
+        UserDefaults.standard.removeObject(forKey: "isSubscriptionPurchased")
+        UserDefaults.standard.synchronize()
         
         user.delete { error in
             if let error = error {

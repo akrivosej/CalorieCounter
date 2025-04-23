@@ -48,7 +48,7 @@ workflows:
     publishing:
       email:
         recipients:
-          - fassy363@gmail.com
+          - akrivosej851@gmail.com
         notify:
           success: true
           failure: false
