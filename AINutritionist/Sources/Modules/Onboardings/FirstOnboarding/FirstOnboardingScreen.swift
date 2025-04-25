@@ -120,7 +120,7 @@ struct FirstOnboardingScreen: View {
             .padding(.bottom, 32)
 
             Button {
-                path.append(Router.registration)
+                path.append(Router.root)
             } label: {
                 HStack {
                     Text("Already have an account? ")
